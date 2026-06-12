@@ -2,11 +2,675 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=capacitacion-medellin.html">
-<link rel="canonical" href="capacitacion-medellin.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acompañamiento a la Medida · Medellín 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Paleta esmeralda + aguamarina + dorado */
+  --g1:#042A28;--g2:#0A5048;--g3:#0F7A63;--g4:#19C79A;
+  --gold:#E8A820;--gold2:#FDD87A;
+  --aqua:#7EF0D8;
+  --white:#FFFFFF;--off:#F5F2EA;
+  --gray:#6B7280;--dark:#1A1A1A;
+  --radius:14px;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  background:radial-gradient(110% 110% at 50% -10%,#0A4F46 0%,#052E2A 40%,#021512 75%,#010C0B 100%);
+  color:var(--white);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* BG ANIMADO */
+.bg-orbs{position:fixed;inset:0;pointer-events:none;z-index:0}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.25;animation:drift 12s ease-in-out infinite}
+.orb1{width:500px;height:500px;background:var(--g3);top:-120px;left:-100px;animation-delay:0s}
+.orb2{width:400px;height:400px;background:#C8930A;bottom:-100px;right:-80px;animation-delay:-4s}
+.orb3{width:300px;height:300px;background:var(--g4);top:40%;left:60%;animation-delay:-8s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+
+/* GRID PATRON */
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:60px 60px}
+
+/* MAIN CARD */
+.main{
+  position:relative;z-index:10;
+  width:min(920px,96vw);
+  background:linear-gradient(160deg,rgba(34,214,168,.20),rgba(15,122,99,.18) 55%,rgba(255,255,255,.06));
+  border:1px solid rgba(126,240,216,.28);
+  border-radius:24px;
+  backdrop-filter:blur(22px);
+  box-shadow:0 40px 90px -25px rgba(0,0,0,.7),0 0 0 1px rgba(126,240,216,.08),inset 0 1px 0 rgba(255,255,255,.14);
+  padding:clamp(1.5rem,3vw,2.5rem) clamp(1.5rem,4vw,3rem);
+  display:flex;flex-direction:column;gap:1.5rem;
+  animation:cardIn .7s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+
+/* HEADER */
+.header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;gap:.5rem}
+.badges{display:flex;gap:.5rem;flex-wrap:wrap}
+.badge{
+  font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.75);padding:.3rem .7rem;border-radius:100px;
+}
+.badge.gold{background:rgba(232,168,32,.18);border-color:rgba(232,168,32,.4);color:var(--gold2);animation:badgeGlow 3.5s ease-in-out infinite}
+@keyframes badgeGlow{0%,100%{box-shadow:0 0 0 0 rgba(232,168,32,0)}50%{box-shadow:0 0 14px 1px rgba(232,168,32,.35)}}
+.titulo{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:900;line-height:1.15}
+.titulo em{
+  font-style:normal;position:relative;
+  background:linear-gradient(100deg,var(--gold2) 0%,#fff3cf 35%,var(--gold) 50%,#fff3cf 65%,var(--gold2) 100%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.subtitulo{font-size:.82rem;color:rgba(255,255,255,.55);max-width:440px;line-height:1.6}
+.header-stats{display:flex;gap:1.25rem;flex-shrink:0}
+.hstat{text-align:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:.75rem 1rem;min-width:70px}
+.hstat-n{font-size:1.5rem;font-weight:900;color:var(--gold2);line-height:1}
+.hstat-l{font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);margin-top:.25rem}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+
+/* COMPONENTES GRID */
+.sec-label{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.sec-label::before{content:'';width:20px;height:1.5px;background:var(--gold);display:block}
+
+.comps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem}
+
+.comp-btn{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius);
+  padding:1rem .9rem;
+  cursor:pointer;
+  transition:all .22s cubic-bezier(.34,1.56,.64,1);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  color:var(--white);
+  font-family:inherit;
+  animation:compIn .55s cubic-bezier(.22,1,.36,1) backwards;
+}
+@keyframes compIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.comps-grid .comp-btn:nth-child(1){animation-delay:.18s}
+.comps-grid .comp-btn:nth-child(2){animation-delay:.26s}
+.comps-grid .comp-btn:nth-child(3){animation-delay:.34s}
+.comps-grid .comp-btn:nth-child(4){animation-delay:.42s}
+.comps-grid .comp-btn:nth-child(5){animation-delay:.50s}
+.comp-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--g4),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.comp-btn:hover{
+  transform:translateY(-4px) scale(1.03);
+  border-color:var(--gold);
+  box-shadow:0 12px 32px rgba(0,0,0,.3),0 0 0 1px rgba(232,168,32,.25);
+}
+.comp-btn:hover::before{opacity:1}
+.comp-btn:active{transform:scale(.97)}
+.comp-num{font-size:.58rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);position:relative;z-index:1}
+.comp-icon{font-size:1.6rem;position:relative;z-index:1;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.comp-btn:hover .comp-icon{transform:scale(1.18) translateY(-2px) rotate(-4deg)}
+.comp-name{font-size:.72rem;font-weight:600;line-height:1.35;color:rgba(255,255,255,.88);position:relative;z-index:1}
+.comp-time{font-size:.58rem;color:var(--gold2);background:rgba(232,168,32,.15);border:1px solid rgba(232,168,32,.25);padding:.2rem .5rem;border-radius:100px;position:relative;z-index:1}
+
+/* BOTTOM ROW */
+.bottom-row{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center}
+
+/* OBJETIVO INLINE */
+.objetivo-strip{
+  background:rgba(232,168,32,.1);
+  border:1px solid rgba(232,168,32,.25);
+  border-radius:12px;
+  padding:.9rem 1.25rem;
+  display:flex;align-items:center;gap:.75rem;
+}
+.obj-icon{font-size:1.4rem;flex-shrink:0}
+.obj-text{font-size:.78rem;color:rgba(255,255,255,.8);line-height:1.55}
+.obj-text strong{color:var(--gold2)}
+
+/* ACCIONES RÁPIDAS */
+.acciones{display:flex;flex-direction:column;gap:.6rem}
+.accion-btn{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:.7rem 1.1rem;
+  cursor:pointer;color:var(--white);font-family:inherit;
+  font-size:.75rem;font-weight:600;
+  display:flex;align-items:center;gap:.6rem;
+  transition:all .2s;white-space:nowrap;
+}
+.accion-btn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25);transform:translateX(3px)}
+.accion-btn .aico{font-size:1rem}
+.accion-btn.primary{background:var(--gold);color:var(--dark);border-color:var(--gold);position:relative;overflow:hidden}
+.accion-btn.primary:hover{background:#f5b92a;transform:translateX(3px)}
+.accion-btn.primary::after{
+  content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(110deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-20deg);animation:sweep 4.5s ease-in-out infinite;
+}
+@keyframes sweep{0%,55%{left:-60%}80%,100%{left:140%}}
+
+/* FOOTER BAR */
+.footer-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.footer-logos{display:flex;gap:.5rem;flex-wrap:wrap}
+.flogo{font-size:.58rem;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.flogo-sep{color:rgba(255,255,255,.15);font-size:.7rem}
+.footer-pill{background:rgba(25,199,154,.18);border:1px solid rgba(126,240,216,.35);border-radius:100px;padding:.25rem .75rem;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--aqua)}
+
+/* ===== MODAL ===== */
+.overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(3,22,20,.85);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1rem;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s;
+}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:linear-gradient(145deg,#0c4339,#052622);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:22px;
+  width:min(680px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  padding:2rem 2rem 1.5rem;
+  transform:scale(.9) translateY(20px);
+  transition:transform .35s cubic-bezier(.34,1.4,.64,1);
+  position:relative;
+}
+.overlay.open .modal{transform:scale(1) translateY(0)}
+.modal::-webkit-scrollbar{width:4px}
+.modal::-webkit-scrollbar-track{background:rgba(255,255,255,.05)}
+.modal::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}
+
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.7);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  transition:all .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.2);color:var(--white)}
+
+.modal-tag{font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.modal-titulo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;margin-bottom:.5rem;line-height:1.2}
+.modal-sub{font-size:.83rem;color:rgba(255,255,255,.55);margin-bottom:1.5rem;line-height:1.6}
+
+.modal-divider{height:1px;background:rgba(255,255,255,.08);margin:1.25rem 0}
+
+/* Cuerpo del modal — layout flexible */
+.modal-body{display:flex;flex-direction:column;gap:1rem}
+
+.info-block{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1rem 1.25rem}
+.info-block h4{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:.65rem}
+.info-block p{font-size:.83rem;color:rgba(255,255,255,.7);line-height:1.65}
+
+.list-items{display:flex;flex-direction:column;gap:.5rem}
+.list-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.82rem;color:rgba(255,255,255,.75);line-height:1.5}
+.list-item::before{content:'▸';color:var(--gold);flex-shrink:0;margin-top:.05rem}
+
+.pill-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.pill{font-size:.68rem;font-weight:600;background:rgba(25,199,154,.18);border:1px solid rgba(126,240,216,.3);color:var(--aqua);padding:.25rem .65rem;border-radius:100px}
+
+.evidencia-box{
+  background:rgba(232,168,32,.08);border:1px solid rgba(232,168,32,.2);
+  border-radius:12px;padding:1rem 1.25rem;
+  display:flex;align-items:flex-start;gap:.75rem;
+}
+.evidencia-box .ev-ico{font-size:1.3rem;flex-shrink:0}
+.evidencia-box .ev-text{font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.6;font-style:italic}
+.evidencia-box .ev-text strong{color:var(--gold2);font-style:normal}
+
+/* Modal ruta (timeline compacto) */
+.tl-compact{display:flex;flex-direction:column;gap:.5rem}
+.tl-row{display:flex;align-items:center;gap:.9rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.75rem 1rem;cursor:pointer;transition:all .2s}
+.tl-row:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.18);transform:translateX(4px)}
+.tl-ico{font-size:1.2rem;flex-shrink:0}
+.tl-info{flex:1}
+.tl-tit{font-size:.82rem;font-weight:700;color:var(--white)}
+.tl-det{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:.1rem}
+.tl-dur{font-size:.65rem;font-weight:700;background:rgba(232,168,32,.18);color:var(--gold2);padding:.22rem .55rem;border-radius:100px;flex-shrink:0}
+
+/* Modal antes/durante/despues */
+.fases-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.fase-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:1.1rem;text-align:center;transition:all .3s}
+.fase-card.activa{background:rgba(25,199,154,.22);border-color:var(--g4);transform:scale(1.04)}
+.fase-ico{font-size:1.8rem;margin-bottom:.5rem}
+.fase-nombre{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold2);margin-bottom:.35rem}
+.fase-desc{font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.45}
+
+/* Modal resultados */
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.res-mini{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.1rem .9rem;text-align:center}
+.res-ico{font-size:1.6rem;margin-bottom:.5rem}
+.res-tit{font-size:.75rem;font-weight:700;color:var(--white);margin-bottom:.35rem}
+.res-txt{font-size:.7rem;color:rgba(255,255,255,.5);line-height:1.45}
+
+/* Modal nav */
+.modal-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.08)}
+.mnav-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);color:rgba(255,255,255,.7);padding:.55rem 1.1rem;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.75rem;font-weight:600;display:flex;align-items:center;gap:.4rem;transition:all .2s}
+.mnav-btn:hover{background:rgba(255,255,255,.15);color:var(--white)}
+.mnav-btn:disabled{opacity:.3;cursor:default;pointer-events:none}
+.mnav-dots{display:flex;gap:.4rem}
+.mdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s}
+.mdot.active{background:var(--gold);transform:scale(1.3)}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--g4);border:1px solid rgba(255,255,255,.2);
+  color:var(--white);font-size:.78rem;font-weight:600;
+  padding:.7rem 1.4rem;border-radius:100px;
+  opacity:0;pointer-events:none;transition:all .4s;
+  z-index:200;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Respeta preferencia de menor movimiento */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
+/* RESPONSIVE */
+@media(max-width:650px){
+  .comps-grid{grid-template-columns:repeat(3,1fr)}
+  .header-stats{display:none}
+  .bottom-row{grid-template-columns:1fr}
+  .fases-row,.res-grid{grid-template-columns:1fr}
+  .acciones{flex-direction:row;flex-wrap:wrap}
+}
+</style>
 </head>
 <body>
-<p>Redirigiendo… si no ocurre automáticamente, <a href="capacitacion-medellin.html">haz clic aquí</a>.</p>
+
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="bg-grid"></div>
+
+<!-- ══ MAIN CARD ══════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="badges">
+        <span class="badge">Comité de Cafeteros de Caldas</span>
+        <span class="badge">Secretos para Contar</span>
+        <span class="badge">Alianza ERA</span>
+        <span class="badge gold">Medellín 2026</span>
+      </div>
+      <h1 class="titulo">Uso de <em>evidencias</em> para un<br>acompañamiento a la medida</h1>
+      <p class="subtitulo">Estrategia de asesoría diferenciada para el fortalecimiento pedagógico e institucional en el modelo Escuela Nueva.</p>
+    </div>
+    <div class="header-stats">
+      <div class="hstat"><div class="hstat-n">5</div><div class="hstat-l">Componentes</div></div>
+      <div class="hstat"><div class="hstat-n">4h</div><div class="hstat-l">Formación</div></div>
+      <div class="hstat"><div class="hstat-n" style="font-size:1rem;margin-top:.2rem">IA+</div><div class="hstat-l">Herramientas</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- COMPONENTES -->
+  <div>
+    <div class="sec-label">Haz clic para explorar cada componente</div>
+    <div class="comps-grid">
+      <button class="comp-btn" onclick="abrirComp(0)">
+        <span class="comp-num">01</span>
+        <span class="comp-icon">🏆</span>
+        <span class="comp-name">Actividades de Conjunto</span>
+        <span class="comp-time">30 min</span>
+      </button>
+      <button class="comp-btn" onclick="abrirComp(1)">
+        <span class="comp-num">02</span>
+        <span class="comp-icon">🧩</span>
+        <span class="comp-name">Fundamentos Pedagógicos</span>
+        <span class="comp-time">40 min</span>
+      </button>
+      <button class="comp-btn" onclick="abrirComp(2)">
+        <span class="comp-num">03</span>
+        <span class="comp-icon">👩‍💼</span>
+        <span class="comp-name">Visión Directiva</span>
+        <span class="comp-time">20 min</span>
+      </button>
+      <button class="comp-btn" onclick="abrirComp(3)">
+        <span class="comp-num">04</span>
+        <span class="comp-icon">🚦</span>
+        <span class="comp-name">Modelo en Tiempo Real</span>
+        <span class="comp-time">30 min</span>
+      </button>
+      <button class="comp-btn" onclick="abrirComp(4)">
+        <span class="comp-num">05</span>
+        <span class="comp-icon">🔬</span>
+        <span class="comp-name">Análisis de Resultados</span>
+        <span class="comp-time">40 min</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+    <div class="objetivo-strip">
+      <span class="obj-icon">🎯</span>
+      <div class="obj-text">
+        <strong>Objetivo general:</strong> Fortalecer los procesos pedagógicos, directivos e institucionales mediante una estrategia de asesoría basada en evidencias que promueva el <strong>mejoramiento continuo</strong> y mejores resultados de aprendizaje.
+      </div>
+    </div>
+    <div class="acciones">
+      <button class="accion-btn primary" onclick="abrirRuta()">
+        <span class="aico">📅</span> Ver ruta de formación
+      </button>
+      <button class="accion-btn" onclick="abrirFases()">
+        <span class="aico">🔄</span> Antes / Durante / Después
+      </button>
+      <button class="accion-btn" onclick="abrirResultados()">
+        <span class="aico">✨</span> Resultados esperados
+      </button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <div class="footer-logos">
+      <span class="flogo">Comité de Cafeteros de Caldas</span>
+      <span class="flogo-sep">·</span>
+      <span class="flogo">Fundación Secretos para Contar</span>
+      <span class="flogo-sep">·</span>
+      <span class="flogo">Alianza ERA</span>
+    </div>
+    <div class="footer-pill">Taller · Asesorías Diferenciadas · 2026</div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ══ MODALES COMPONENTES ════════════════════════════════════════ -->
+<div class="overlay" id="overlay-comp" onclick="cerrarComp(event)">
+  <div class="modal" id="modal-comp">
+    <button class="modal-close" onclick="cerrarModal('overlay-comp')">✕</button>
+
+    <div id="mc-tag" class="modal-tag"></div>
+    <h2 id="mc-titulo" class="modal-titulo"></h2>
+    <p id="mc-sub" class="modal-sub"></p>
+
+    <div class="modal-divider"></div>
+
+    <div class="modal-body">
+      <div class="info-block">
+        <h4>¿Qué se hace?</h4>
+        <div id="mc-actividades" class="list-items"></div>
+      </div>
+      <div class="info-block" id="mc-recursos-block">
+        <h4>Recursos</h4>
+        <div id="mc-recursos" class="pill-row"></div>
+      </div>
+      <div class="evidencia-box">
+        <span class="ev-ico">✦</span>
+        <div class="ev-text" id="mc-evidencia"></div>
+      </div>
+    </div>
+
+    <div class="modal-nav">
+      <button class="mnav-btn" id="mnav-prev" onclick="navComp(-1)">← Anterior</button>
+      <div class="mnav-dots" id="mnav-dots"></div>
+      <button class="mnav-btn" id="mnav-next" onclick="navComp(1)">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL RUTA ═════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay-ruta" onclick="cerrarOverlay(event,'overlay-ruta')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-ruta')">✕</button>
+    <div class="modal-tag">Proceso de formación</div>
+    <h2 class="modal-titulo">Ruta de 4 horas</h2>
+    <p class="modal-sub">Secuencia de actividades, tiempos y evidencias de aprendizaje para cada momento.</p>
+    <div class="modal-divider"></div>
+    <div class="tl-compact">
+      <div class="tl-row" onclick="abrirComp(0)"><span class="tl-ico">🏆</span><div class="tl-info"><div class="tl-tit">Actividades de conjunto</div><div class="tl-det">Copa Mundial · Mis Compromisos · Competencias socioemocionales</div></div><span class="tl-dur">30 min</span></div>
+      <div class="tl-row" onclick="abrirComp(1)"><span class="tl-ico">🧩</span><div class="tl-info"><div class="tl-tit">Fundamentos del acompañamiento</div><div class="tl-det">Construyendo el conocimiento pieza a pieza · Momento dirigido</div></div><span class="tl-dur">40 min</span></div>
+      <div class="tl-row" onclick="abrirComp(2)"><span class="tl-ico">👩‍💼</span><div class="tl-info"><div class="tl-tit">Visión directiva del modelo</div><div class="tl-det">Exploración de herramienta · Ejercicio práctico de evidencia</div></div><span class="tl-dur">20 min</span></div>
+      <div class="tl-row" onclick="abrirComp(3)"><span class="tl-ico">🚦</span><div class="tl-info"><div class="tl-tit">Estado del modelo en tiempo real</div><div class="tl-det">Herramienta Semáforo · Diálogo sobre evidencias</div></div><span class="tl-dur">30 min</span></div>
+      <div class="tl-row" onclick="abrirComp(4)"><span class="tl-ico">🔬</span><div class="tl-info"><div class="tl-tit">Análisis de resultados</div><div class="tl-det">Ruta de mejoramiento intensivo · Plataforma Prisma · IA</div></div><span class="tl-dur">40 min</span></div>
+      <div class="tl-row" style="border-color:rgba(232,168,32,.3);background:rgba(232,168,32,.07)"><span class="tl-ico">📋</span><div class="tl-info"><div class="tl-tit">Planeación práctica de visita a la medida</div><div class="tl-det">Grupos · Roles · Ejercicio integrador · Plenaria</div></div><span class="tl-dur">2 horas</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL FASES ════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay-fases" onclick="cerrarOverlay(event,'overlay-fases')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-fases')">✕</button>
+    <div class="modal-tag">Estructura de la visita</div>
+    <h2 class="modal-titulo">El antes, durante y el después</h2>
+    <p class="modal-sub">Cada visita de acompañamiento se planea y ejecuta en tres momentos articulados.</p>
+    <div class="modal-divider"></div>
+    <div class="fases-row" id="fases-row">
+      <div class="fase-card activa" id="fc-antes">
+        <div class="fase-ico">📝</div>
+        <div class="fase-nombre">Antes</div>
+        <div class="fase-desc">Análisis de evidencias y planeación diferenciada de la visita según el estado de cada institución.</div>
+      </div>
+      <div class="fase-card" id="fc-durante">
+        <div class="fase-ico">🤝</div>
+        <div class="fase-nombre">Durante</div>
+        <div class="fase-desc">Implementación del acompañamiento situado, contextualizado y ajustado a las necesidades reales.</div>
+      </div>
+      <div class="fase-card" id="fc-despues">
+        <div class="fase-ico">📊</div>
+        <div class="fase-nombre">Después</div>
+        <div class="fase-desc">Seguimiento a compromisos, retroalimentación y consolidación de la mejora continua.</div>
+      </div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="info-block">
+      <h4>Insumos para la planeación</h4>
+      <div class="list-items">
+        <div class="list-item">Visión directiva sobre la implementación del modelo</div>
+        <div class="list-item">Estado del modelo en tiempo real (Herramienta Semáforo)</div>
+        <div class="list-item">Análisis de resultados de evaluaciones internas y externas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL RESULTADOS ═══════════════════════════════════════════ -->
+<div class="overlay" id="overlay-resultados" onclick="cerrarOverlay(event,'overlay-resultados')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-resultados')">✕</button>
+    <div class="modal-tag">¿Qué vamos a lograr?</div>
+    <h2 class="modal-titulo">Resultados esperados</h2>
+    <p class="modal-sub">Transformaciones concretas en los equipos y las instituciones participantes.</p>
+    <div class="modal-divider"></div>
+    <div class="res-grid">
+      <div class="res-mini"><div class="res-ico">🧠</div><div class="res-tit">Capacidades fortalecidas</div><div class="res-txt">Equipos con mayor habilidad para interpretar evidencias y diseñar rutas de acompañamiento.</div></div>
+      <div class="res-mini"><div class="res-ico">🎯</div><div class="res-tit">Decisiones informadas</div><div class="res-txt">Mejor planeación y ejecución de visitas a partir del análisis sistemático de múltiples fuentes.</div></div>
+      <div class="res-mini"><div class="res-ico">♻️</div><div class="res-tit">Mejora continua</div><div class="res-txt">Consolidación de procesos de seguimiento y retroalimentación basados en evidencia.</div></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="info-block">
+      <h4>Valor agregado de la propuesta</h4>
+      <p>Integración articulada de <strong style="color:var(--gold2)">evidencias, inteligencia artificial, liderazgo pedagógico y acompañamiento diferenciado</strong>, para que cada institución reciba una asesoría pertinente, contextualizada y orientada a resultados medibles.</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const comps = [
+  {
+    tag:'Componente 01 · 30 minutos',
+    titulo:'Actividades de Conjunto',
+    sub:'Reflexión, lúdica y construcción de compromisos para fortalecer las competencias socioemocionales y ciudadanas.',
+    actividades:['Actividad lúdica: Copa Mundial de los Aprendizajes','Instrumento de Gobierno Estudiantil "Mis Compromisos"','Evaluación participativa de las actividades desarrolladas','Fundamentación en competencias socioemocionales y ciudadanas'],
+    recursos:['Cuaderno de actividades','Tarjetas','Presentación Copa Mundial','Marcadores'],
+    evidencia:'<strong>Evidencia de aprendizaje:</strong> Reconozco la importancia de las actividades de conjunto para el desarrollo de competencias socioemocionales y ciudadanas.'
+  },
+  {
+    tag:'Componente 02 · 40 minutos',
+    titulo:'Fundamentos Pedagógicos del Acompañamiento a la Medida',
+    sub:'Enfoque situado y contextualizado basado en los planteamientos de Michael Fullan para identificar necesidades y orientar acciones de mejora.',
+    actividades:['Actividad: "Construyendo el conocimiento pieza a pieza"','Realización de momento dirigido','Co-construcción de conceptos con herramienta digital','Análisis de prácticas pedagógicas y de gestión'],
+    recursos:['Rompecabezas','Herramienta digital co-construcción'],
+    evidencia:'<strong>Evidencia de aprendizaje:</strong> Comprendo los principios del acompañamiento a la medida y su relación con el uso de evidencias para la toma de decisiones informadas.'
+  },
+  {
+    tag:'Componente 03 · 20 minutos',
+    titulo:'Visión Directiva de la Implementación del Modelo',
+    sub:'La percepción y experiencia de los rectores como fuente estratégica de evidencia para comprender el estado de implementación.',
+    actividades:['Introducción y contextualización','Exploración de herramienta digital de seguimiento','Ejercicio práctico: uso de evidencia para definir rutas de asesoría','Identificación de fortalezas, desafíos y oportunidades de mejora'],
+    recursos:['Herramienta digital de visión directiva'],
+    evidencia:'<strong>Evidencia de aprendizaje:</strong> Fundamento y uso evidencias para la definición de rutas de asesoría y acompañamiento a la medida, conforme a la visión directiva de la implementación.'
+  },
+  {
+    tag:'Componente 04 · 30 minutos',
+    titulo:'Estado del Modelo en Tiempo Real',
+    sub:'La herramienta Semáforo permite monitorear en tiempo real el nivel de implementación del modelo en cada sede visitada.',
+    actividades:['Socialización de la herramienta Semáforo','Análisis de informes de visita generados','Diálogo sobre las evidencias que arroja la herramienta','Orientación del acompañamiento según nivel de implementación'],
+    recursos:['Herramienta Semáforo'],
+    evidencia:'<strong>Evidencia de aprendizaje:</strong> Socializo y analizo la herramienta Semáforo para el monitoreo del estado del modelo y facilito el diálogo sobre evidencias para la planeación.'
+  },
+  {
+    tag:'Componente 05 · 40 minutos',
+    titulo:'Análisis de Resultados para el Acompañamiento',
+    sub:'Interpretación de evaluaciones internas y externas apoyada en inteligencia artificial para focalizar el mejoramiento intensivo.',
+    actividades:['Fundamentación de la ruta de mejoramiento intensivo','Identificación de aprendizajes prioritarios','Uso de Plataforma Prisma para el análisis de datos','Uso de herramientas de IA para recomendaciones contextualizadas'],
+    recursos:['Plataforma Prisma','Herramientas IA'],
+    evidencia:'<strong>Evidencia de aprendizaje:</strong> Comprendo la ruta de mejoramiento intensivo como estrategia para identificar aprendizajes prioritarios y planificar acciones de asesoría a partir del análisis de evaluaciones.'
+  }
+];
+
+let compActual = 0;
+
+function abrirComp(i){
+  compActual = i;
+  renderComp();
+  const oc = document.getElementById('overlay-comp');
+  oc.style.zIndex = '200';
+  oc.classList.add('open');
+}
+
+function renderComp(){
+  const c = comps[compActual];
+  document.getElementById('mc-tag').textContent = c.tag;
+  document.getElementById('mc-titulo').textContent = c.titulo;
+  document.getElementById('mc-sub').textContent = c.sub;
+
+  const acts = document.getElementById('mc-actividades');
+  acts.innerHTML = c.actividades.map(a=>`<div class="list-item">${a}</div>`).join('');
+
+  const rec = document.getElementById('mc-recursos');
+  rec.innerHTML = c.recursos.map(r=>`<span class="pill">${r}</span>`).join('');
+
+  document.getElementById('mc-evidencia').innerHTML = c.evidencia;
+
+  // dots
+  const dots = document.getElementById('mnav-dots');
+  dots.innerHTML = comps.map((_,i)=>`<div class="mdot${i===compActual?' active':''}" onclick="navA(${i})"></div>`).join('');
+
+  document.getElementById('mnav-prev').disabled = compActual === 0;
+  document.getElementById('mnav-next').disabled = compActual === comps.length-1;
+}
+
+function navComp(dir){
+  compActual = Math.max(0, Math.min(comps.length-1, compActual+dir));
+  renderComp();
+}
+function navA(i){ compActual=i; renderComp(); }
+
+function cerrarComp(e){
+  if(e.target===document.getElementById('overlay-comp')) cerrarModal('overlay-comp');
+}
+function cerrarOverlay(e, id){
+  if(e.target===document.getElementById(id)) cerrarModal(id);
+}
+function cerrarModal(id){
+  const el = document.getElementById(id);
+  el.classList.remove('open');
+  if(id === 'overlay-comp') el.style.zIndex = '100';
+}
+
+function abrirRuta(){ document.getElementById('overlay-ruta').classList.add('open'); }
+function abrirFases(){ document.getElementById('overlay-fases').classList.add('open'); iniciarFases(); }
+function abrirResultados(){ document.getElementById('overlay-resultados').classList.add('open'); }
+
+// Animación fases
+let faseTimer = null;
+const faseIds = ['fc-antes','fc-durante','fc-despues'];
+let faseIdx = 0;
+function iniciarFases(){
+  clearInterval(faseTimer);
+  faseIdx = 0;
+  activarFase();
+  faseTimer = setInterval(()=>{
+    faseIdx = (faseIdx+1)%3;
+    activarFase();
+  }, 2200);
+}
+function activarFase(){
+  faseIds.forEach((id,i)=>{
+    document.getElementById(id).classList.toggle('activa', i===faseIdx);
+  });
+}
+
+// Toast helper
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// Contadores animados del header
+(function countUp(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  document.querySelectorAll('.hstat-n').forEach(el=>{
+    const raw = el.textContent.trim();
+    const m = raw.match(/^(\d+)(\D*)$/);
+    if(!m) return;                       // p.ej. "IA+" se deja igual
+    const end = +m[1], suf = m[2], dur = 900, t0 = performance.now();
+    (function tick(now){
+      const p = Math.min(1,(now-t0)/dur);
+      const e = 1-Math.pow(1-p,3);        // ease-out
+      el.textContent = Math.round(end*e)+suf;
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  });
+})();
+
+// ESC cierra modales
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    ['overlay-comp','overlay-ruta','overlay-fases','overlay-resultados']
+      .forEach(id=>cerrarModal(id));
+    clearInterval(faseTimer);
+  }
+});
+</script>
 </body>
 </html>
