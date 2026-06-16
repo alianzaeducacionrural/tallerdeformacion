@@ -16,16 +16,17 @@
   --gray:#6B7280;--dark:#1A1A1A;
   --radius:14px;
 }
-html,body{height:100%;overflow:hidden}
+html{scroll-behavior:smooth}
 body{
   font-family:'Inter',sans-serif;
   background:radial-gradient(110% 110% at 50% -10%,#0A4F46 0%,#052E2A 40%,#021512 75%,#010C0B 100%);
   color:var(--white);
   display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  align-items:center;
   min-height:100vh;
+  padding:clamp(1rem,4vh,2.5rem) clamp(.5rem,2vw,1rem);
   position:relative;
-  overflow:hidden;
+  overflow-x:hidden;
 }
 
 /* BG ANIMADO */
@@ -44,6 +45,7 @@ body{
 /* MAIN CARD */
 .main{
   position:relative;z-index:10;
+  margin:auto;
   width:min(920px,96vw);
   background:linear-gradient(160deg,rgba(34,214,168,.20),rgba(15,122,99,.18) 55%,rgba(255,255,255,.06));
   border:1px solid rgba(126,240,216,.28);
@@ -292,12 +294,23 @@ body{
 }
 
 /* RESPONSIVE */
-@media(max-width:650px){
+@media(max-width:760px){
   .comps-grid{grid-template-columns:repeat(3,1fr)}
-  .header-stats{display:none}
   .bottom-row{grid-template-columns:1fr}
-  .fases-row,.res-grid{grid-template-columns:1fr}
   .acciones{flex-direction:row;flex-wrap:wrap}
+  .acciones .accion-btn{flex:1 1 auto;justify-content:center;white-space:normal}
+}
+@media(max-width:560px){
+  .header{flex-direction:column}
+  .header-stats{align-self:stretch;justify-content:space-between;gap:.6rem}
+  .hstat{flex:1}
+  .fases-row,.res-grid{grid-template-columns:1fr}
+  .modal{padding:1.5rem 1.25rem 1.25rem}
+}
+@media(max-width:430px){
+  .comps-grid{grid-template-columns:repeat(2,1fr)}
+  .titulo br{display:none}
+  .badge{font-size:.55rem;padding:.25rem .55rem}
 }
 </style>
 </head>
