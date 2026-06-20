@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asesoría a la Medida · Comité de Cafeteros</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0F6B42;--green2:#1A8F5A;--green3:#2EAD74;--green4:#C8F0DC;--green5:#EBF9F2;
+  --gold:#B07D0A;--gold2:#E8A820;--gold3:#FDF3D9;
+  --dark:#1A2E23;--text:#2D4A38;--muted:#6B8C7A;--border:#D4E8DC;
+  --white:#FFFFFF;--off:#F7FAF8;--card:#FFFFFF;
+  --shadow:0 2px 16px rgba(15,107,66,.08);--shadow-lg:0 8px 40px rgba(15,107,66,.14);
+  --radius:16px;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--off);
+  color:var(--text);
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* BG decorativo claro */
+.bg-deco{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-circle{position:absolute;border-radius:50%;opacity:.12}
+.bc1{width:600px;height:600px;background:var(--green3);top:-200px;right:-150px}
+.bc2{width:400px;height:400px;background:var(--gold2);bottom:-150px;left:-100px}
+.bc3{width:250px;height:250px;background:var(--green2);top:50%;left:30%;opacity:.07}
+.bg-grid{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:48px 48px;opacity:.4;
+}
+
+/* MAIN CARD */
+.main{
+  position:relative;z-index:10;
+  width:min(960px,96vw);
+  background:rgba(255,255,255,.82);
+  border:1.5px solid var(--border);
+  border-radius:24px;
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow-lg);
+  padding:clamp(1.25rem,3vw,2.25rem) clamp(1.25rem,4vw,2.75rem);
+  display:flex;flex-direction:column;gap:1.25rem;
+}
+
+/* HEADER */
+.header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.header-left{display:flex;flex-direction:column;gap:.6rem;flex:1;min-width:240px}
+.badges{display:flex;gap:.4rem;flex-wrap:wrap}
+.badge{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .7rem;border-radius:100px}
+.badge-green{background:var(--green5);border:1px solid var(--green4);color:var(--green)}
+.badge-gold{background:var(--gold3);border:1px solid #EDD98A;color:var(--gold)}
+.titulo{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.8vw,1.9rem);font-weight:900;color:var(--dark);line-height:1.2}
+.titulo em{color:var(--green2);font-style:italic}
+.subtitulo{font-size:.82rem;color:var(--muted);line-height:1.6;max-width:460px}
+
+.header-stats{display:flex;gap:.75rem;flex-shrink:0;flex-wrap:wrap}
+.hstat{
+  background:var(--white);border:1.5px solid var(--border);border-radius:14px;
+  padding:.75rem 1rem;text-align:center;min-width:72px;
+  box-shadow:var(--shadow);
+}
+.hstat-n{font-size:1.4rem;font-weight:900;color:var(--green);line-height:1}
+.hstat-l{font-size:.52rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:.2rem}
+
+/* DIVIDER */
+.divider{height:1.5px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+
+/* AUTORES */
+.sec-label{font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.sec-label::before{content:'';width:18px;height:2px;background:var(--green3);display:block;border-radius:2px}
+
+.autores-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem}
+.autor-card{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:.9rem .85rem;cursor:pointer;transition:all .22s cubic-bezier(.34,1.56,.64,1);
+  text-align:center;display:flex;flex-direction:column;align-items:center;gap:.4rem;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.autor-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--green5),rgba(46,173,116,.06));opacity:0;transition:opacity .25s}
+.autor-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--green3)}
+.autor-card:hover::after{opacity:1}
+.autor-icon{font-size:1.5rem;position:relative;z-index:1}
+.autor-name{font-size:.7rem;font-weight:800;color:var(--dark);line-height:1.2;position:relative;z-index:1}
+.autor-year{font-size:.58rem;color:var(--muted);position:relative;z-index:1}
+.autor-tag{font-size:.6rem;font-weight:700;background:var(--green5);border:1px solid var(--green4);color:var(--green);padding:.2rem .5rem;border-radius:100px;position:relative;z-index:1}
+
+/* CONCEPTOS */
+.conceptos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.concepto{
+  background:var(--white);border:1.5px solid var(--border);border-radius:12px;
+  padding:.75rem 1rem;display:flex;align-items:center;gap:.65rem;
+  box-shadow:var(--shadow);transition:all .2s;cursor:default;
+}
+.concepto:hover{border-color:var(--green3);background:var(--green5);transform:translateX(3px)}
+.concepto-ico{font-size:1.1rem;flex-shrink:0}
+.concepto-txt{font-size:.75rem;line-height:1.4;color:var(--text)}
+.concepto-txt strong{color:var(--green);font-weight:800}
+
+/* BOTTOM ROW */
+.bottom-row{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center}
+
+/* VOCES STRIP */
+.voces-strip{
+  background:linear-gradient(135deg,var(--green5),var(--gold3));
+  border:1.5px solid var(--green4);border-radius:14px;
+  padding:.9rem 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+}
+.voces-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--green);white-space:nowrap}
+.voces-pills{display:flex;gap:.5rem;flex-wrap:wrap}
+.voz-pill{
+  background:var(--white);border:1.5px solid var(--border);border-radius:100px;
+  padding:.3rem .85rem;font-size:.72rem;font-weight:700;color:var(--text);
+  display:flex;align-items:center;gap:.4rem;box-shadow:var(--shadow);
+  cursor:pointer;transition:all .2s;
+}
+.voz-pill:hover{background:var(--green);color:var(--white);border-color:var(--green);transform:scale(1.05)}
+.voz-ico{font-size:.9rem}
+
+/* ACCIONES */
+.acciones{display:flex;flex-direction:column;gap:.5rem}
+.accion-btn{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:10px;padding:.65rem 1.1rem;
+  cursor:pointer;color:var(--text);font-family:inherit;
+  font-size:.73rem;font-weight:700;
+  display:flex;align-items:center;gap:.5rem;
+  transition:all .2s;white-space:nowrap;
+  box-shadow:var(--shadow);
+}
+.accion-btn:hover{background:var(--green5);border-color:var(--green3);color:var(--green);transform:translateX(3px)}
+.accion-btn.primary{background:var(--green);color:var(--white);border-color:var(--green)}
+.accion-btn.primary:hover{background:var(--green2);border-color:var(--green2);transform:translateX(3px)}
+.aico{font-size:1rem}
+
+/* FOOTER */
+.footer-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.footer-logos{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.flogo{font-size:.57rem;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.flogo-sep{color:var(--border);font-size:.8rem}
+.footer-pill{background:var(--green5);border:1.5px solid var(--green4);border-radius:100px;padding:.25rem .75rem;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+
+/* ═══════ MODALES ═══════ */
+.overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(15,40,25,.55);
+  backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1rem;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s;
+}
+.overlay.open{opacity:1;pointer-events:all}
+
+.modal{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:22px;
+  width:min(660px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  padding:2rem 2rem 1.5rem;
+  box-shadow:var(--shadow-lg);
+  transform:scale(.9) translateY(20px);
+  transition:transform .35s cubic-bezier(.34,1.4,.64,1);
+  position:relative;
+}
+.overlay.open .modal{transform:scale(1) translateY(0)}
+.modal::-webkit-scrollbar{width:4px}
+.modal::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--off);border:1.5px solid var(--border);
+  color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  transition:all .2s;
+}
+.modal-close:hover{background:var(--green5);border-color:var(--green3);color:var(--green)}
+
+.modal-tag{font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:.65rem}
+.modal-titulo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--dark);margin-bottom:.5rem;line-height:1.2}
+.modal-sub{font-size:.83rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6}
+.modal-divider{height:1.5px;background:var(--border);margin:1.1rem 0}
+
+.info-block{background:var(--off);border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:.75rem}
+.info-block h4{font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:.65rem}
+.info-block p{font-size:.83rem;color:var(--text);line-height:1.65}
+
+.list-items{display:flex;flex-direction:column;gap:.5rem}
+.list-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.82rem;color:var(--text);line-height:1.5}
+.list-item::before{content:'▸';color:var(--green3);flex-shrink:0;margin-top:.05rem}
+
+.pill-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.pill{font-size:.68rem;font-weight:600;background:var(--green5);border:1px solid var(--green4);color:var(--green);padding:.25rem .65rem;border-radius:100px}
+.pill-gold{background:var(--gold3);border-color:#EDD98A;color:var(--gold)}
+
+.highlight-box{
+  background:linear-gradient(135deg,var(--green5),var(--gold3));
+  border:1.5px solid var(--green4);
+  border-radius:12px;padding:1rem 1.25rem;
+  display:flex;align-items:flex-start;gap:.75rem;
+}
+.hb-ico{font-size:1.3rem;flex-shrink:0}
+.hb-text{font-size:.82rem;color:var(--text);line-height:1.65}
+.hb-text strong{color:var(--green);font-weight:800}
+
+/* Tabla autores en modal */
+.tabla-autores{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:.5rem}
+.tabla-autores th{background:var(--green5);color:var(--green);font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.65rem .9rem;text-align:left;border-bottom:2px solid var(--green4)}
+.tabla-autores td{padding:.7rem .9rem;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+.tabla-autores tr:last-child td{border-bottom:none}
+.tabla-autores tr:hover td{background:var(--off)}
+.td-clave{font-weight:700;color:var(--green)}
+
+/* Conceptos en modal */
+.concepto-modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.concepto-modal{background:var(--off);border:1.5px solid var(--border);border-radius:10px;padding:.85rem;transition:all .2s}
+.concepto-modal:hover{border-color:var(--green3);background:var(--green5)}
+.cm-titulo{font-size:.85rem;font-weight:800;color:var(--dark);margin-bottom:.3rem}
+.cm-desc{font-size:.75rem;color:var(--muted);line-height:1.5}
+.cm-ico{font-size:1.3rem;margin-bottom:.4rem}
+
+/* Fases */
+.fases-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.fase-card{background:var(--off);border:1.5px solid var(--border);border-radius:14px;padding:1.1rem;text-align:center;transition:all .3s;cursor:default}
+.fase-card.activa{background:var(--green5);border-color:var(--green3);transform:scale(1.04);box-shadow:var(--shadow)}
+.fase-ico{font-size:1.8rem;margin-bottom:.5rem}
+.fase-nombre{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:.35rem}
+.fase-desc{font-size:.7rem;color:var(--muted);line-height:1.45}
+
+/* Modal nav */
+.modal-nav{display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;padding-top:1rem;border-top:1.5px solid var(--border)}
+.mnav-btn{background:var(--off);border:1.5px solid var(--border);color:var(--muted);padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.73rem;font-weight:700;display:flex;align-items:center;gap:.4rem;transition:all .2s}
+.mnav-btn:hover{background:var(--green5);border-color:var(--green3);color:var(--green)}
+.mnav-btn:disabled{opacity:.3;cursor:default;pointer-events:none}
+.mnav-dots{display:flex;gap:.4rem}
+.mdot{width:7px;height:7px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .2s}
+.mdot.active{background:var(--green);transform:scale(1.3)}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);border:1.5px solid var(--green2);color:var(--white);font-size:.78rem;font-weight:700;padding:.7rem 1.4rem;border-radius:100px;opacity:0;pointer-events:none;transition:all .4s;z-index:300;white-space:nowrap;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  html,body{overflow:auto;height:auto}
+  body{align-items:flex-start;padding:1rem 0}
+  .main{border-radius:16px;gap:1rem}
+  .autores-grid{grid-template-columns:repeat(2,1fr)}
+  .conceptos-grid{grid-template-columns:1fr 1fr}
+  .bottom-row{grid-template-columns:1fr}
+  .acciones{flex-direction:row;flex-wrap:wrap}
+  .header-stats{display:none}
+  .fases-row{grid-template-columns:1fr}
+  .concepto-modal-grid{grid-template-columns:1fr}
+  .tabla-autores{font-size:.72rem}
+}
+@media(max-width:420px){
+  .autores-grid{grid-template-columns:repeat(2,1fr)}
+  .conceptos-grid{grid-template-columns:1fr}
+  .badges .badge:nth-child(n+3){display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-deco">
+  <div class="bg-circle bc1"></div>
+  <div class="bg-circle bc2"></div>
+  <div class="bg-circle bc3"></div>
+</div>
+<div class="bg-grid"></div>
+
+<!-- ══ MAIN ═══════════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="badges">
+        <span class="badge badge-green">Comité de Cafeteros de Caldas</span>
+        <span class="badge badge-green">Secretos para Contar</span>
+        <span class="badge badge-green">Alianza ERA</span>
+        <span class="badge badge-gold">2026</span>
+      </div>
+      <h1 class="titulo">Asesoría y acompañamiento<br><em>a la medida</em></h1>
+      <p class="subtitulo">Acompañamiento situado, pertinente y basado en evidencias que responde a las necesidades específicas de cada sede educativa para impulsar su mejoramiento continuo.</p>
+    </div>
+    <div class="header-stats">
+      <div class="hstat"><div class="hstat-n">4</div><div class="hstat-l">Referentes</div></div>
+      <div class="hstat"><div class="hstat-n">6</div><div class="hstat-l">Conceptos</div></div>
+      <div class="hstat"><div class="hstat-n">3</div><div class="hstat-l">Voces clave</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AUTORES -->
+  <div>
+    <div class="sec-label">Referentes teóricos — clic para ampliar</div>
+    <div class="autores-grid">
+      <div class="autor-card" onclick="abrirAutor(0)">
+        <span class="autor-icon">📘</span>
+        <span class="autor-name">Michael Fullan</span>
+        <span class="autor-year">2020</span>
+        <span class="autor-tag">Capacidades · Mejora</span>
+      </div>
+      <div class="autor-card" onclick="abrirAutor(1)">
+        <span class="autor-icon">🔍</span>
+        <span class="autor-name">Viviane Robinson</span>
+        <span class="autor-year">2019</span>
+        <span class="autor-tag">Evidencias · Aprendizajes</span>
+      </div>
+      <div class="autor-card" onclick="abrirAutor(2)">
+        <span class="autor-icon">🇨🇴</span>
+        <span class="autor-name">MEN Colombia</span>
+        <span class="autor-year">2022–2024</span>
+        <span class="autor-tag">Pertinencia · Contexto</span>
+      </div>
+      <div class="autor-card" onclick="abrirAutor(3)">
+        <span class="autor-icon">🌍</span>
+        <span class="autor-name">UNESCO</span>
+        <span class="autor-year">2023</span>
+        <span class="autor-tag">Reflexión · Desarrollo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONCEPTOS -->
+  <div>
+    <div class="sec-label">Marco conceptual</div>
+    <div class="conceptos-grid">
+      <div class="concepto"><span class="concepto-ico">📊</span><span class="concepto-txt"><strong>Evidencia</strong> = Análisis + Decisión</span></div>
+      <div class="concepto"><span class="concepto-ico">🌱</span><span class="concepto-txt"><strong>Contexto</strong> = Diversidad + Respuesta</span></div>
+      <div class="concepto"><span class="concepto-ico">🔄</span><span class="concepto-txt"><strong>Flexibilidad</strong> = Adaptación + Pertinencia</span></div>
+      <div class="concepto"><span class="concepto-ico">🎯</span><span class="concepto-txt"><strong>Decisiones</strong> = Evidencia + Acción</span></div>
+      <div class="concepto"><span class="concepto-ico">✂️</span><span class="concepto-txt"><strong>A la Medida</strong> = Personalización + Contexto</span></div>
+      <div class="concepto"><span class="concepto-ico">👂</span><span class="concepto-txt"><strong>Escucha</strong> = Atención + Confianza</span></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+    <div class="voces-strip">
+      <span class="voces-label">Las voces que orientan</span>
+      <div class="voces-pills">
+        <div class="voz-pill" onclick="abrirVoz('directivos')"><span class="voz-ico">👩‍💼</span> Directivos</div>
+        <div class="voz-pill" onclick="abrirVoz('docentes')"><span class="voz-ico">👩‍🏫</span> Docentes</div>
+        <div class="voz-pill" onclick="abrirVoz('otros')"><span class="voz-ico">👥</span> Otros actores</div>
+      </div>
+    </div>
+    <div class="acciones">
+      <button class="accion-btn primary" onclick="abrirModal('overlay-modelo')">
+        <span class="aico">🚦</span> El modelo hoy
+      </button>
+      <button class="accion-btn" onclick="abrirModal('overlay-conceptos')">
+        <span class="aico">🧩</span> Marco conceptual
+      </button>
+      <button class="accion-btn" onclick="abrirModal('overlay-resultados')">
+        <span class="aico">✨</span> Resultados con propósito
+      </button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <div class="footer-logos">
+      <span class="flogo">Comité de Cafeteros de Caldas</span>
+      <span class="flogo-sep">·</span>
+      <span class="flogo">Fundación Secretos para Contar</span>
+      <span class="flogo-sep">·</span>
+      <span class="flogo">Alianza ERA</span>
+    </div>
+    <div class="footer-pill">Asesoría Diferenciada · 2026</div>
+  </div>
+
+</div>
+
+<!-- ══ MODAL AUTORES ══════════════════════════════════════════════ -->
+<div class="overlay" id="overlay-autor" onclick="cerrarOverlayClick(event,'overlay-autor')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-autor')">✕</button>
+    <div id="a-tag" class="modal-tag"></div>
+    <h2 id="a-titulo" class="modal-titulo"></h2>
+    <p id="a-sub" class="modal-sub"></p>
+    <div class="modal-divider"></div>
+    <div id="a-body" class="modal-body"></div>
+    <div class="modal-nav">
+      <button class="mnav-btn" id="anav-prev" onclick="navAutor(-1)">← Anterior</button>
+      <div class="mnav-dots" id="anav-dots"></div>
+      <button class="mnav-btn" id="anav-next" onclick="navAutor(1)">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL VOZ ══════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay-voz" onclick="cerrarOverlayClick(event,'overlay-voz')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-voz')">✕</button>
+    <div id="v-tag" class="modal-tag"></div>
+    <h2 id="v-titulo" class="modal-titulo"></h2>
+    <p id="v-sub" class="modal-sub"></p>
+    <div class="modal-divider"></div>
+    <div id="v-body"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL MODELO ═══════════════════════════════════════════════ -->
+<div class="overlay" id="overlay-modelo" onclick="cerrarOverlayClick(event,'overlay-modelo')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-modelo')">✕</button>
+    <div class="modal-tag">Evidencias para la acción</div>
+    <h2 class="modal-titulo">El modelo hoy</h2>
+    <p class="modal-sub">Estado actual de la implementación del modelo Escuela Nueva y el papel de las evidencias para orientar el acompañamiento diferenciado.</p>
+    <div class="modal-divider"></div>
+    <div class="info-block">
+      <h4>¿Qué nos dicen las evidencias?</h4>
+      <div class="list-items">
+        <div class="list-item">Análisis de resultados de evaluaciones internas y externas por sede</div>
+        <div class="list-item">Estado del modelo según la herramienta Semáforo en tiempo real</div>
+        <div class="list-item">Visión directiva sobre la implementación: fortalezas y desafíos</div>
+        <div class="list-item">Percepciones de docentes y otros actores del proceso educativo</div>
+      </div>
+    </div>
+    <div class="modal-divider"></div>
+    <div style="margin-bottom:.75rem">
+      <div class="sec-label" style="margin-bottom:.65rem">Momentos del acompañamiento</div>
+      <div class="fases-row" id="fases-modelo">
+        <div class="fase-card activa" id="fm-antes"><div class="fase-ico">📝</div><div class="fase-nombre">Antes</div><div class="fase-desc">Análisis de evidencias y planeación diferenciada de la visita</div></div>
+        <div class="fase-card" id="fm-durante"><div class="fase-ico">🤝</div><div class="fase-nombre">Durante</div><div class="fase-desc">Implementación del acompañamiento situado y contextualizado</div></div>
+        <div class="fase-card" id="fm-despues"><div class="fase-ico">📊</div><div class="fase-nombre">Después</div><div class="fase-desc">Seguimiento, retroalimentación y mejora continua</div></div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <span class="hb-ico">💡</span>
+      <span class="hb-text">Las evidencias no son un fin en sí mismas: son el puente entre el <strong>diagnóstico situado</strong> y la <strong>acción pertinente</strong> que cada sede necesita.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL CONCEPTOS ════════════════════════════════════════════ -->
+<div class="overlay" id="overlay-conceptos" onclick="cerrarOverlayClick(event,'overlay-conceptos')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-conceptos')">✕</button>
+    <div class="modal-tag">Marco conceptual</div>
+    <h2 class="modal-titulo">Conceptos que guían la propuesta</h2>
+    <p class="modal-sub">Cada ecuación representa una relación conceptual que fundamenta el enfoque de acompañamiento a la medida.</p>
+    <div class="modal-divider"></div>
+    <div class="concepto-modal-grid">
+      <div class="concepto-modal"><div class="cm-ico">📊</div><div class="cm-titulo">Evidencia = Análisis + Decisión</div><div class="cm-desc">Las evidencias cobran valor cuando se analizan sistemáticamente y orientan decisiones concretas de mejora.</div></div>
+      <div class="concepto-modal"><div class="cm-ico">🌱</div><div class="cm-titulo">Contexto = Diversidad + Respuesta</div><div class="cm-desc">Cada sede tiene características propias; la respuesta del acompañamiento debe reflejar esa diversidad.</div></div>
+      <div class="concepto-modal"><div class="cm-ico">🔄</div><div class="cm-titulo">Flexibilidad = Adaptación + Pertinencia</div><div class="cm-desc">Un acompañamiento pertinente se adapta a los tiempos, recursos y necesidades de cada institución.</div></div>
+      <div class="concepto-modal"><div class="cm-ico">🎯</div><div class="cm-titulo">Decisiones = Evidencia + Acción</div><div class="cm-desc">Las decisiones informadas articulan el análisis de datos con acciones concretas y verificables.</div></div>
+      <div class="concepto-modal"><div class="cm-ico">✂️</div><div class="cm-titulo">A la Medida = Personalización + Contexto</div><div class="cm-desc">La asesoría a la medida personaliza la intervención según el contexto real de cada sede.</div></div>
+      <div class="concepto-modal"><div class="cm-ico">👂</div><div class="cm-titulo">Escucha = Atención + Confianza</div><div class="cm-desc">La escucha activa de los actores educativos es la base de una relación de confianza y mejora sostenida.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL RESULTADOS ═══════════════════════════════════════════ -->
+<div class="overlay" id="overlay-resultados" onclick="cerrarOverlayClick(event,'overlay-resultados')">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal('overlay-resultados')">✕</button>
+    <div class="modal-tag">¿Qué vamos a lograr?</div>
+    <h2 class="modal-titulo">Resultados con propósito</h2>
+    <p class="modal-sub">Transformaciones concretas en personas, prácticas e instituciones.</p>
+    <div class="modal-divider"></div>
+    <div class="info-block">
+      <h4>En los equipos asesores</h4>
+      <div class="list-items">
+        <div class="list-item">Mayor capacidad para leer, interpretar y usar evidencias en la planeación de visitas</div>
+        <div class="list-item">Habilidad para adaptar el acompañamiento al nivel de implementación del modelo</div>
+        <div class="list-item">Apropiación de herramientas digitales (Semáforo, Prisma, IA) para el análisis de datos</div>
+      </div>
+    </div>
+    <div class="info-block">
+      <h4>En las sedes educativas</h4>
+      <div class="list-items">
+        <div class="list-item">Procesos pedagógicos fortalecidos con apoyo situado y pertinente</div>
+        <div class="list-item">Directivos con mayor claridad para liderar la implementación del modelo</div>
+        <div class="list-item">Mejores resultados de aprendizaje gracias a intervenciones focalizadas</div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <span class="hb-ico">🌟</span>
+      <span class="hb-text">El propósito final es que cada sede avance desde donde está, con el apoyo que necesita, hacia una <strong>educación rural de mayor calidad y equidad</strong>.</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── AUTORES ─────────────────────────────────────────── */
+const autores = [
+  {
+    tag:'Referente 01 · 2020',
+    titulo:'Michael Fullan',
+    sub:'Sus aportes sobre liderazgo para el cambio y capacidades colectivas fundamentan el enfoque de mejora sostenida del modelo.',
+    body:`
+      <div class="info-block">
+        <h4>Aporte central</h4>
+        <p>Fullan plantea que el cambio educativo sostenible depende del desarrollo de <strong>capacidades colectivas</strong> en los equipos, no solo de reformas estructurales. Su enfoque de "mejora profunda" implica transformar culturas de colaboración dentro de las instituciones.</p>
+      </div>
+      <div class="info-block">
+        <h4>Conceptos clave</h4>
+        <div class="pill-row">
+          <span class="pill">Capacidades colectivas</span>
+          <span class="pill">Liderazgo para el cambio</span>
+          <span class="pill">Mejora profunda</span>
+          <span class="pill">Cultura colaborativa</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <span class="hb-ico">📘</span>
+        <span class="hb-text"><strong>Conexión con la propuesta:</strong> El acompañamiento a la medida fortalece las capacidades de los equipos asesores para liderar procesos de mejora pertinentes y sostenidos.</span>
+      </div>`
+  },
+  {
+    tag:'Referente 02 · 2019',
+    titulo:'Viviane Robinson',
+    sub:'Su investigación sobre liderazgo centrado en el estudiante y el uso de evidencias orienta la toma de decisiones pedagógicas en el modelo.',
+    body:`
+      <div class="info-block">
+        <h4>Aporte central</h4>
+        <p>Robinson demuestra que los líderes educativos que participan activamente en el aprendizaje docente y usan <strong>evidencias de manera sistemática</strong> generan mayor impacto en los resultados de los estudiantes.</p>
+      </div>
+      <div class="info-block">
+        <h4>Conceptos clave</h4>
+        <div class="pill-row">
+          <span class="pill">Liderazgo centrado en estudiantes</span>
+          <span class="pill">Uso de evidencias</span>
+          <span class="pill">Aprendizaje directivo</span>
+          <span class="pill">Impacto en aprendizajes</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <span class="hb-ico">🔍</span>
+        <span class="hb-text"><strong>Conexión con la propuesta:</strong> La visión directiva como fuente de evidencia y el análisis de resultados de evaluaciones son expresiones directas del enfoque de Robinson.</span>
+      </div>`
+  },
+  {
+    tag:'Referente 03 · 2022–2024',
+    titulo:'Ministerio de Educación Nacional',
+    sub:'Los lineamientos del MEN para el acompañamiento a establecimientos educativos enmarcan la pertinencia y el contexto del modelo.',
+    body:`
+      <div class="info-block">
+        <h4>Aporte central</h4>
+        <p>El MEN plantea que el acompañamiento a las instituciones debe ser <strong>pertinente y contextualizado</strong>, reconociendo la diversidad territorial, cultural y socioeconómica de las sedes educativas colombianas.</p>
+      </div>
+      <div class="info-block">
+        <h4>Conceptos clave</h4>
+        <div class="pill-row">
+          <span class="pill">Pertinencia territorial</span>
+          <span class="pill">Contexto diverso</span>
+          <span class="pill">Acompañamiento situado</span>
+          <span class="pill">Rutas de mejoramiento</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <span class="hb-ico">🇨🇴</span>
+        <span class="hb-text"><strong>Conexión con la propuesta:</strong> La estrategia se alinea con los lineamientos del MEN para responder a las necesidades específicas de las sedes rurales del departamento de Caldas.</span>
+      </div>`
+  },
+  {
+    tag:'Referente 04 · 2023',
+    titulo:'UNESCO',
+    sub:'El marco global de la UNESCO sobre docentes y desarrollo profesional contextualiza la reflexión como motor del mejoramiento continuo.',
+    body:`
+      <div class="info-block">
+        <h4>Aporte central</h4>
+        <p>La UNESCO subraya que el <strong>desarrollo profesional reflexivo</strong> de los docentes y directivos, basado en la práctica y el diálogo, es un factor determinante para la mejora de la calidad educativa en contextos diversos.</p>
+      </div>
+      <div class="info-block">
+        <h4>Conceptos clave</h4>
+        <div class="pill-row">
+          <span class="pill">Reflexión profesional</span>
+          <span class="pill">Desarrollo docente</span>
+          <span class="pill">Diálogo pedagógico</span>
+          <span class="pill">Equidad educativa</span>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <span class="hb-ico">🌍</span>
+        <span class="hb-text"><strong>Conexión con la propuesta:</strong> Los espacios de reflexión colectiva y el análisis de evidencias entre asesores y comunidades educativas se nutren directamente del enfoque UNESCO.</span>
+      </div>`
+  }
+];
+
+let autorActual = 0;
+
+function abrirAutor(i){
+  autorActual = i;
+  renderAutor();
+  const ov = document.getElementById('overlay-autor');
+  ov.style.zIndex = '200';
+  ov.classList.add('open');
+}
+
+function renderAutor(){
+  const a = autores[autorActual];
+  document.getElementById('a-tag').textContent = a.tag;
+  document.getElementById('a-titulo').textContent = a.titulo;
+  document.getElementById('a-sub').textContent = a.sub;
+  document.getElementById('a-body').innerHTML = a.body;
+  const dots = document.getElementById('anav-dots');
+  dots.innerHTML = autores.map((_,i)=>`<div class="mdot${i===autorActual?' active':''}" onclick="navA2(${i})"></div>`).join('');
+  document.getElementById('anav-prev').disabled = autorActual===0;
+  document.getElementById('anav-next').disabled = autorActual===autores.length-1;
+}
+function navAutor(d){ autorActual=Math.max(0,Math.min(autores.length-1,autorActual+d)); renderAutor(); }
+function navA2(i){ autorActual=i; renderAutor(); }
+
+/* ── VOCES ───────────────────────────────────────────── */
+const voces = {
+  directivos:{
+    tag:'Voz 01 · Liderazgo institucional',
+    titulo:'Directivos',
+    sub:'La mirada de los rectores y coordinadores es una fuente estratégica de evidencia para comprender el estado de implementación del modelo.',
+    body:`
+      <div class="info-block">
+        <h4>¿Qué aportan?</h4>
+        <div class="list-items">
+          <div class="list-item">Percepción sobre el nivel de implementación del modelo Escuela Nueva en su sede</div>
+          <div class="list-item">Identificación de fortalezas, desafíos y necesidades de apoyo prioritarias</div>
+          <div class="list-item">Visión sobre el liderazgo pedagógico y la gestión institucional</div>
+          <div class="list-item">Compromisos adquiridos y avance en su cumplimiento</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <span class="hb-ico">👩‍💼</span>
+        <span class="hb-text">La herramienta digital de <strong>visión directiva</strong> permite recoger, sistematizar y analizar estas evidencias para orientar el acompañamiento a la medida.</span>
+      </div>`
+  },
+  docentes:{
+    tag:'Voz 02 · Práctica pedagógica',
+    titulo:'Docentes',
+    sub:'La voz de los maestros revela las realidades del aula y los retos cotidianos de la implementación del modelo pedagógico.',
+    body:`
+      <div class="info-block">
+        <h4>¿Qué aportan?</h4>
+        <div class="list-items">
+          <div class="list-item">Experiencias y reflexiones sobre la implementación de la metodología Escuela Nueva</div>
+          <div class="list-item">Identificación de dificultades en el uso de guías de interaprendizaje y fichas de seguimiento</div>
+          <div class="list-item">Necesidades de formación y acompañamiento para fortalecer su práctica</div>
+          <div class="list-item">Logros observados en el aprendizaje de los estudiantes</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <span class="hb-ico">👩‍🏫</span>
+        <span class="hb-text">El acompañamiento <strong>situado en el aula</strong> parte de escuchar activamente a los docentes para diseñar estrategias realmente pertinentes a su contexto.</span>
+      </div>`
+  },
+  otros:{
+    tag:'Voz 03 · Comunidad educativa',
+    titulo:'Otros actores',
+    sub:'La comunidad, las familias y los estudiantes también son fuentes válidas de evidencia para un acompañamiento integral.',
+    body:`
+      <div class="info-block">
+        <h4>¿Quiénes son y qué aportan?</h4>
+        <div class="list-items">
+          <div class="list-item"><strong>Estudiantes:</strong> percepción sobre su propio aprendizaje y participación en el modelo</div>
+          <div class="list-item"><strong>Familias:</strong> vinculación con el proceso educativo y expectativas sobre la calidad</div>
+          <div class="list-item"><strong>Comunidad:</strong> relación entre la escuela y el territorio, pertinencia cultural</div>
+          <div class="list-item"><strong>Aliados locales:</strong> organizaciones que fortalecen el entorno educativo</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <span class="hb-ico">👥</span>
+        <span class="hb-text">Un acompañamiento a la medida reconoce que la calidad educativa se construye con <strong>toda la comunidad</strong>, no solo dentro del aula.</span>
+      </div>`
+  }
+};
+
+function abrirVoz(tipo){
+  const v = voces[tipo];
+  document.getElementById('v-tag').textContent = v.tag;
+  document.getElementById('v-titulo').textContent = v.titulo;
+  document.getElementById('v-sub').textContent = v.sub;
+  document.getElementById('v-body').innerHTML = v.body;
+  const ov = document.getElementById('overlay-voz');
+  ov.style.zIndex = '200';
+  ov.classList.add('open');
+}
+
+/* ── GENÉRICO ────────────────────────────────────────── */
+function abrirModal(id){
+  document.getElementById(id).classList.add('open');
+}
+function cerrarModal(id){
+  const el = document.getElementById(id);
+  el.classList.remove('open');
+  el.style.zIndex = '';
+  if(id==='overlay-modelo') clearInterval(faseTimer);
+}
+function cerrarOverlayClick(e, id){
+  if(e.target===document.getElementById(id)) cerrarModal(id);
+}
+
+/* ── FASES MODELO ────────────────────────────────────── */
+let faseTimer = null;
+const faseIds = ['fm-antes','fm-durante','fm-despues'];
+let faseIdx = 0;
+
+document.getElementById('overlay-modelo').addEventListener('transitionend', function(e){
+  if(this.classList.contains('open') && e.propertyName==='opacity'){
+    clearInterval(faseTimer);
+    faseIdx=0; activarFase();
+    faseTimer = setInterval(()=>{ faseIdx=(faseIdx+1)%3; activarFase(); }, 2200);
+  }
+});
+
+function activarFase(){
+  faseIds.forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if(el) el.classList.toggle('activa', i===faseIdx);
+  });
+}
+
+/* ── ESC ─────────────────────────────────────────────── */
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    ['overlay-autor','overlay-voz','overlay-modelo','overlay-conceptos','overlay-resultados']
+      .forEach(id=>cerrarModal(id));
+  }
+});
+</script>
+</body>
+</html>
