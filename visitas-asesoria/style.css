@@ -1,0 +1,122 @@
+/* ===========================================================
+   Visitas Escuela Nueva — estilos compartidos (tono claro)
+   Paleta esmeralda/aguamarina/dorado, consistente con el sitio.
+   =========================================================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --emerald:#0F7A63;--emerald-d:#0A5A48;--g1:#042A28;--g3:#2E9E82;--g4:#3FBBA0;--aqua:#17B395;
+  --gold:#B8860B;--gold2:#9A6B08;
+  --ink:#1C2C28;--ink2:#54655F;--ink3:#7E8E89;
+  --surf:#FFFFFF;--surf2:#EFF5F2;--line:#DBE6E1;
+  /* Semáforo / estados */
+  --verde:#17a673;--amarillo:#d99400;--rojo:#d6443c;
+  --pend:#2f8fd6;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+  background:radial-gradient(120% 120% at 50% -10%,#F4FBF8 0%,#EAF5F0 45%,#E1EEE8 100%) fixed;
+  min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ---- Encabezado de página ---- */
+.topbar{background:linear-gradient(135deg,var(--g1),var(--emerald));color:#fff;position:relative}
+.topbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--aqua),transparent)}
+.topbar .inner{max-width:1180px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.topbar .kicker{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#F2D98A;font-weight:800}
+.topbar h1{font-family:'Playfair Display',Georgia,serif;font-size:1.45rem;font-weight:700;margin-top:3px}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav a{color:#fff;text-decoration:none;font-weight:600;font-size:.86rem;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1);border-radius:10px;padding:8px 14px;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.nav a:hover{background:rgba(255,255,255,.22)}
+.nav a.active{background:var(--gold);color:#3a2c00;border-color:transparent}
+
+/* ---- Contenedores ---- */
+.wrap{max-width:1180px;margin:0 auto;padding:24px 22px 60px}
+.wrap-narrow{max-width:840px}
+.card{background:linear-gradient(160deg,#FFFFFF,#FAFDFB 60%,#F4FAF7);border:1px solid var(--line);border-radius:20px;
+  box-shadow:0 18px 50px -24px rgba(16,60,50,.28),0 2px 10px rgba(16,60,50,.05)}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 10px rgba(16,60,50,.04)}
+.panel h2{font-size:1.02rem;font-weight:800;color:var(--emerald-d);display:flex;align-items:center;gap:8px}
+.panel .ph-sub{font-size:.8rem;color:var(--ink3);margin:4px 0 16px}
+
+/* ---- Formularios ---- */
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.fld input,.fld textarea,.fld select{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;font:inherit;font-size:.95rem;color:var(--ink);background:#fff;transition:.15s}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:none;border-color:var(--g4);box-shadow:0 0 0 3px rgba(63,187,160,.18)}
+.fld .req{color:var(--rojo)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ---- Botones ---- */
+.btn{border:1.5px solid var(--emerald);background:#fff;color:var(--emerald-d);border-radius:11px;padding:11px 18px;
+  font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;transition:.15s;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{background:var(--surf2)}
+.btn.primary{background:linear-gradient(135deg,var(--emerald),var(--aqua));color:#fff;border-color:transparent;
+  box-shadow:0 12px 26px rgba(15,122,99,.28)}
+.btn.primary:hover{transform:translateY(-1px);box-shadow:0 16px 32px rgba(15,122,99,.36)}
+.btn.ghost{border-color:var(--line);color:var(--ink2)}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* ---- Píldoras / badges ---- */
+.pill{border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+.pill.verde{background:rgba(23,166,115,.14);color:#0c7a52}
+.pill.amarillo{background:rgba(217,148,0,.16);color:#8a6a00}
+.pill.rojo{background:rgba(214,68,60,.14);color:#a8322b}
+.pill.pend{background:rgba(47,143,214,.14);color:#1f6fb0}
+
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.dot.verde{background:var(--verde)}.dot.amarillo{background:var(--amarillo)}.dot.rojo{background:var(--rojo)}.dot.pend{background:var(--pend)}
+
+/* ---- Filtros ---- */
+.filters{display:flex;gap:14px;flex-wrap:wrap;align-items:end;background:var(--surf);border:1px solid var(--line);
+  border-radius:16px;padding:14px 18px;margin-bottom:20px;box-shadow:0 2px 10px rgba(16,60,50,.04)}
+.filters .f{display:flex;flex-direction:column;gap:5px}
+.filters label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3)}
+.filters input,.filters select{border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;font-size:.9rem;background:#fbfdfe;min-width:170px;color:var(--ink)}
+.filters input:focus,.filters select:focus{outline:none;border-color:var(--g4);box-shadow:0 0 0 3px rgba(63,187,160,.16)}
+.count-pill{margin-left:auto;align-self:center;background:var(--surf2);color:var(--emerald-d);font-weight:700;font-size:.82rem;border-radius:999px;padding:7px 15px}
+
+/* ---- Estados de carga ---- */
+.loading{text-align:center;padding:90px 20px;color:var(--ink2)}
+.spin{width:36px;height:36px;border:3px solid #d4e2dc;border-top-color:var(--aqua);border-radius:50%;margin:0 auto 14px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;color:var(--ink3);padding:48px 20px}
+
+/* ---- Modal ---- */
+.modal{position:fixed;inset:0;background:rgba(10,40,35,.55);backdrop-filter:blur(4px);display:none;
+  align-items:flex-start;justify-content:center;padding:5vh 16px;z-index:100;overflow:auto}
+.modal.show{display:flex}
+.modal .box{background:#fff;border-radius:22px;max-width:680px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden}
+.modal .mhead{background:linear-gradient(135deg,#F4FAF7,#EAF5F0);border-bottom:1px solid var(--line);padding:20px 24px;position:relative}
+.modal .mhead h3{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;color:var(--emerald-d)}
+.modal .mhead .msub{font-size:.85rem;color:var(--ink2);margin-top:3px}
+.modal .mbody{padding:22px 24px}
+.modal .x{position:absolute;top:16px;right:18px;width:36px;height:36px;border-radius:50%;border:none;background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);font-size:1.3rem;line-height:1;cursor:pointer;color:var(--ink2);transition:.15s}
+.modal .x:hover{background:var(--surf2)}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;
+  background:var(--emerald-d);color:#fff;padding:12px 22px;border-radius:12px;font-weight:600;font-size:.9rem;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);transition:.25s;z-index:200;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+
+@media(max-width:560px){
+  .wrap{padding:18px 14px 50px}
+  .topbar .inner{padding:16px 16px}
+  .topbar h1{font-size:1.2rem}
+  .topbar .kicker{font-size:.62rem;letter-spacing:.16em}
+  .nav{width:100%}
+  .nav a{flex:1;justify-content:center;padding:8px 6px;font-size:.8rem}
+  .panel{padding:16px 16px}
+  .filters{padding:12px 14px;gap:10px}
+  .filters .f{flex:1 1 100%}
+  .filters input,.filters select{min-width:0;width:100%}
+  .count-pill{margin-left:0}
+  .modal{padding:3vh 10px}
+  .modal .mhead{padding:18px 18px}
+  .modal .mbody{padding:18px 18px}
+  .modal .mhead h3{font-size:1.15rem}
+}
