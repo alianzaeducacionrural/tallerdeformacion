@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generar enlace de evaluación · Comité de Cafeteros</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F7A63'/%3E%3Cpath d='M16 22h26v14a13 13 0 0 1-13 13h0a13 13 0 0 1-13-13V22Z' fill='none' stroke='%23fff' stroke-width='4'/%3E%3Cpath d='M42 26h6a6 6 0 0 1 0 12h-6' fill='none' stroke='%23fff' stroke-width='4'/%3E%3Cpath d='M23 9c-2 3 2 5 0 8M32 9c-2 3 2 5 0 8' fill='none' stroke='%23E8C766' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --emerald:#0F7A63;--emerald-d:#0A5A48;--g4:#3FBBA0;--aqua:#17B395;
+    --gold2:#9A6B08;--ink:#1C2C28;--ink2:#54655F;--ink3:#7E8E89;
+    --surf2:#EFF5F2;--line:#DBE6E1;
+  }
+  body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+    background:radial-gradient(120% 120% at 50% -10%,#F4FBF8 0%,#EAF5F0 45%,#E1EEE8 100%) fixed;
+    min-height:100vh;padding:28px 14px 60px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto}
+  .card{background:linear-gradient(160deg,#FFFFFF,#FAFDFB 60%,#F4FAF7);border:1px solid var(--line);border-radius:24px;
+    box-shadow:0 40px 90px -30px rgba(16,60,50,.30),0 2px 10px rgba(16,60,50,.06);overflow:hidden}
+  .hero{background:linear-gradient(135deg,#F4FAF7,#EAF5F0);border-bottom:1px solid var(--line);padding:30px 32px 24px;position:relative}
+  .hero::after{content:"";position:absolute;left:32px;right:32px;bottom:0;height:3px;border-radius:3px;
+    background:linear-gradient(90deg,var(--emerald),var(--aqua),transparent)}
+  .kicker{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2);font-weight:800}
+  .hero h1{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;line-height:1.15;margin:.3rem 0 .45rem;color:var(--emerald-d)}
+  .hero p{font-size:.9rem;color:var(--ink2);max-width:60ch;line-height:1.5}
+  .body{padding:24px 32px 30px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .fld.full{grid-column:1/-1}
+  .fld label{display:block;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+  .fld input{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;font:inherit;font-size:.95rem;color:var(--ink);background:#fff;transition:.15s}
+  .fld input:focus{outline:none;border-color:var(--g4);box-shadow:0 0 0 3px rgba(63,187,160,.18)}
+  button.go{margin-top:18px;background:linear-gradient(135deg,var(--emerald),var(--aqua));color:#fff;border:none;border-radius:13px;
+    padding:14px 30px;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;box-shadow:0 12px 26px rgba(15,122,99,.30);transition:.15s}
+  button.go:hover{transform:translateY(-1px);box-shadow:0 16px 32px rgba(15,122,99,.38)}
+  .out{display:none;margin-top:24px;border-top:1px dashed var(--line);padding-top:22px}
+  .out h2{font-size:1.05rem;font-weight:800;color:var(--emerald-d);margin-bottom:12px}
+  .linkbox{display:flex;gap:8px;flex-wrap:wrap}
+  .linkbox input{flex:1;min-width:220px;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;font:inherit;font-size:.86rem;background:var(--surf2);color:var(--ink2)}
+  .btn{border:1.5px solid var(--emerald);background:#fff;color:var(--emerald-d);border-radius:11px;padding:11px 16px;font:inherit;font-weight:700;font-size:.88rem;cursor:pointer;white-space:nowrap;transition:.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{background:var(--surf2)}
+  .btn.solid{background:var(--emerald);color:#fff;border-color:transparent}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .qr{margin-top:22px;text-align:center}
+  .qr img{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fff;width:220px;height:220px;cursor:zoom-in;transition:.15s}
+  .qr img:hover{border-color:var(--g4);box-shadow:0 8px 22px rgba(15,122,99,.16)}
+  .qr .cap{font-size:.8rem;color:var(--ink3);margin-top:8px}
+  /* Lightbox QR */
+  .lb{position:fixed;inset:0;background:rgba(10,40,35,.72);backdrop-filter:blur(4px);display:none;
+    align-items:center;justify-content:center;padding:24px;z-index:100;cursor:zoom-out}
+  .lb.show{display:flex}
+  .lb .inner{background:#fff;border-radius:22px;padding:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);text-align:center;cursor:default;max-width:96vw}
+  .lb img{width:min(78vmin,520px);height:min(78vmin,520px);display:block}
+  .lb .cap{font-size:.85rem;color:var(--ink2);margin-top:10px}
+  .lb .x{position:absolute;top:18px;right:22px;width:42px;height:42px;border-radius:50%;border:none;
+    background:rgba(255,255,255,.18);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;transition:.15s}
+  .lb .x:hover{background:rgba(255,255,255,.32)}
+  .ok{color:var(--emerald-d);font-size:.84rem;font-weight:700;margin-left:6px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}.body,.hero{padding-left:20px;padding-right:20px}.hero::after{left:20px;right:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="hero">
+      <div class="kicker">Área de Educación · Comité de Cafeteros</div>
+      <h1>Generar enlace de evaluación</h1>
+      <p>Complete los datos del taller. Se creará un enlace (y un código QR) que abre la evaluación con el encabezado ya diligenciado; el docente solo deberá calificar.</p>
+    </div>
+
+    <div class="body">
+      <div class="grid">
+        <div class="fld full"><label>Entidad Aportante</label><input id="entidad" value="Alianza de Educación Rural"></div>
+        <div class="fld full"><label>Nombre del Taller</label><input id="taller" placeholder="Ej.: Encuentro de Rectores"></div>
+        <div class="fld"><label>Municipio</label><input id="municipio" placeholder="Ej.: Manzanares"></div>
+        <div class="fld"><label>Fecha del Taller</label><input id="fecha" type="date"></div>
+        <div class="fld full"><label>Coordinador(es) del Taller</label><input id="coordinadores" placeholder="Ej.: Equipo de Padrinos"></div>
+      </div>
+
+      <button class="go" id="gen">Generar enlace</button>
+
+      <div class="out" id="out">
+        <h2>Enlace de la evaluación</h2>
+        <div class="linkbox">
+          <input id="link" readonly>
+          <button class="btn solid" id="copy">Copiar<span class="ok" id="ok" style="display:none">✓</span></button>
+        </div>
+        <div class="row">
+          <a class="btn" id="open" target="_blank" rel="noopener">↗ Abrir evaluación</a>
+          <a class="btn" id="dlqr" download="qr-evaluacion.png">⤓ Descargar QR</a>
+        </div>
+        <div class="qr">
+          <img id="qr" alt="Código QR de la evaluación" title="Clic para ampliar">
+          <div class="cap">Escanee este QR para abrir la evaluación · clic para ampliar.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox para ampliar el QR -->
+<div class="lb" id="lb">
+  <button class="x" id="lbClose" aria-label="Cerrar">&times;</button>
+  <div class="inner">
+    <img id="lbImg" alt="Código QR ampliado">
+    <div class="cap" id="lbCap"></div>
+  </div>
+</div>
+
+<script>
+  function v(id){ return document.getElementById(id).value.trim(); }
+
+  document.getElementById('gen').addEventListener('click', function(){
+    var taller = v('taller');
+    if(!taller){ document.getElementById('taller').focus(); return; }
+
+    // form.html en la misma carpeta que esta página
+    var base = new URL('form.html', location.href);
+    var p = base.searchParams;
+    if(v('entidad'))       p.set('entidad', v('entidad'));
+    p.set('taller', taller);
+    if(v('municipio'))     p.set('municipio', v('municipio'));
+    if(v('fecha'))         p.set('fecha', v('fecha'));
+    if(v('coordinadores')) p.set('coordinadores', v('coordinadores'));
+
+    var url = base.toString();
+    document.getElementById('link').value = url;
+    document.getElementById('open').href = url;
+
+    var qr = 'https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=10&data=' + encodeURIComponent(url);
+    document.getElementById('qr').src = qr;
+    document.getElementById('dlqr').href = qr;
+    // versión en alta resolución para la vista ampliada
+    document.getElementById('qr').dataset.big =
+      'https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&margin=12&data=' + encodeURIComponent(url);
+    document.getElementById('lbCap').textContent = v('taller');
+
+    document.getElementById('out').style.display = 'block';
+    document.getElementById('out').scrollIntoView({behavior:'smooth'});
+  });
+
+  // ====== Lightbox: ampliar el QR ======
+  var lb = document.getElementById('lb');
+  function openLb(){
+    var src = document.getElementById('qr').dataset.big || document.getElementById('qr').src;
+    document.getElementById('lbImg').src = src;
+    lb.classList.add('show');
+  }
+  function closeLb(){ lb.classList.remove('show'); }
+
+  document.getElementById('qr').addEventListener('click', openLb);
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  lb.addEventListener('click', function(e){ if(e.target === lb) closeLb(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLb(); });
+
+  document.getElementById('copy').addEventListener('click', function(){
+    var inp = document.getElementById('link');
+    inp.select(); inp.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(inp.value).then(function(){
+      var ok = document.getElementById('ok'); ok.style.display='inline';
+      setTimeout(function(){ ok.style.display='none'; }, 1800);
+    }).catch(function(){ document.execCommand('copy'); });
+  });
+</script>
+</body>
+</html>
